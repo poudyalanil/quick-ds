@@ -39,7 +39,29 @@ def dna_nucleotide_count(dna_sequence):
 
 
 X = dna_nucleotide_count(sequence)
-X_label = list(X)
-X_values = list(X.values())
 
 X
+
+st.subheader('''2. ATGC Details''')
+
+st.write(f"There are**", str(X['A']), '**adenine(A)')
+st.write(f"There are**", str(X['T']), '**thymine(T)')
+st.write(f"There are**", str(X['G']), '**adenine(G)')
+st.write(f"There are**", str(X['C']), '**adenine(C)')
+
+st.subheader('''3. Visualization''')
+
+df = pd.DataFrame.from_dict(X, orient='index')
+df = df.rename({0: 'count'}, axis='columns')
+df.reset_index(inplace=True)
+df = df.rename(columns={'index': 'nucleotide'})
+
+p = alt.Chart(df).mark_bar().encode(
+    x='nucleotide',
+    y='count'
+)
+
+p = p.properties(
+    width=alt.Step(100)
+)
+st.write(p)
